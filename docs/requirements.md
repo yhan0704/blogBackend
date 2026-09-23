@@ -1,102 +1,102 @@
-# 요구사항 분석
+# Requirements
 
-> 🚧 **초안 (mock)** — 아직 확정 아님. 프론트엔드 작업하면서 계속 수정 예정.
-> 관련 이슈: #1 요구사항 분석
+> 🚧 **Draft (mock)** — not finalized yet. Will be revised while building the frontend.
+> Related issue: #1 Requirements analysis
 
 ---
 
-## 1. 서비스 정의
+## 1. Service Definition
 
-**Medium 스타일의 블로그 플랫폼**
-누구나 가입해서 글을 쓰고, 다른 사람의 글을 읽고, 댓글·좋아요·팔로우로 소통한다.
-관리자는 신고된 글/댓글을 처리하고 문제 유저를 정지할 수 있다.
+**A Medium-style blog platform.**
+Anyone can sign up, write posts, read others' posts, and interact through comments, likes, and follows.
+Admins can handle reported posts/comments and suspend problematic users.
 
-## 2. 사용자 역할
+## 2. User Roles
 
-| 역할 | 설명 | 할 수 있는 것 |
+| Role | Description | Permissions |
 |---|---|---|
-| 비회원 (Guest) | 로그인 안 한 방문자 | 발행된 글 읽기, 목록/검색, 프로필 보기 |
-| 회원 (USER) | 가입한 사용자 | Guest 기능 + 글 작성, 댓글, 좋아요, 북마크, 팔로우, 신고 |
-| 관리자 (ADMIN) | 운영자 | USER 기능 + 남의 글/댓글 삭제, 신고 처리, 유저 정지 |
+| Guest | Visitor who is not logged in | Read published posts, browse/search, view profiles |
+| USER | Registered user | Guest permissions + write posts, comment, like, bookmark, follow, report |
+| ADMIN | Operator | USER permissions + delete others' posts/comments, handle reports, suspend users |
 
-## 3. 기능 목록
+## 3. Features
 
-우선순위: **P0** 없으면 블로그가 아님 / **P1** 있어야 쓸 만함 / **P2** 있으면 좋음
+Priority: **P0** not a blog without it / **P1** needed to be usable / **P2** nice to have
 
-| # | 기능 | 설명 | 우선순위 | 마일스톤 |
+| # | Feature | Description | Priority | Milestone |
 |---|---|---|---|---|
-| 0 | 회원가입 / 로그인 | 이메일 + 비밀번호 | P0 | 2 |
-| 1 | 글 CRUD | 작성, 조회, 수정, 삭제 | P0 | 3 |
-| 2 | 글 목록 | 최신순, 페이지네이션 | P0 | 5 |
-| 3 | 글 상세 | 제목, 본문, 작성자, 작성일 | P0 | 3 |
-| 4 | 임시저장 / 발행 | draft / published 구분 | P0 | 6 |
-| 5 | 에디터 | 마크다운 | P0 | (프론트) |
-| 6 | 태그 | 글 ↔ 태그 N:M, 태그별 글 모아보기 | P1 | 8 |
-| 7 | 댓글 | 글 1 : 댓글 N | P1 | 7 |
-| 8 | 좋아요 | 유저당 글 1회 | P1 | 9 |
-| 9 | 프로필 | 소개, 아바타, 내가 쓴 글 | P1 | 10 |
-| 10 | 팔로우 | 다른 작성자 구독 | P2 | 10 |
-| 11 | 북마크 | 나중에 읽기 | P2 | 9 |
-| 12 | 검색 | 제목 / 본문 / 태그 | P2 | 12 |
-| 13 | 조회수 | 글 상세 볼 때 +1 | P2 | 12 |
-| 14 | 이미지 업로드 | 커버 이미지, 본문 이미지 | P1 | 11 |
-| 15 | slug URL | `/posts/my-first-post` | P2 | 12 |
-| 16 | 미리보기 링크 | 발행 전 남에게 보여주기 | P2 | (미정) |
-| 17 | 알림 | 내 글에 댓글/좋아요 | P2 | 13 |
-| 18 | 신고 / 모더레이션 | 신고 → ADMIN 처리 | P2 | 14 |
-| 19 | 유저 정지 | ADMIN 전용 | P2 | 14 |
+| 0 | Sign up / Log in | Email + password | P0 | 2 |
+| 1 | Post CRUD | Create, read, update, delete | P0 | 3 |
+| 2 | Post list | Newest first, pagination | P0 | 5 |
+| 3 | Post detail | Title, body, author, date | P0 | 3 |
+| 4 | Draft / Publish | Separate draft and published states | P0 | 6 |
+| 5 | Editor | Markdown | P0 | (frontend) |
+| 6 | Tags | Post ↔ Tag N:M, browse posts by tag | P1 | 8 |
+| 7 | Comments | Post 1 : Comment N | P1 | 7 |
+| 8 | Likes | Once per user per post | P1 | 9 |
+| 9 | Profile | Bio, avatar, list of the user's posts | P1 | 10 |
+| 10 | Follow | Subscribe to other authors | P2 | 10 |
+| 11 | Bookmarks | Save for later | P2 | 9 |
+| 12 | Search | By title / body / tag | P2 | 12 |
+| 13 | View count | +1 when a post detail is opened | P2 | 12 |
+| 14 | Image upload | Cover image, images in body | P1 | 11 |
+| 15 | Slug URL | `/posts/my-first-post` | P2 | 12 |
+| 16 | Preview link | Share a post before publishing | P2 | (TBD) |
+| 17 | Notifications | Comments/likes on my posts | P2 | 13 |
+| 18 | Reports / Moderation | Report → handled by ADMIN | P2 | 14 |
+| 19 | User suspension | ADMIN only | P2 | 14 |
 
-## 4. 기능별 규칙 (정책)
+## 4. Business Rules
 
-각 규칙은 **결정 / 이유** 형태로 기록한다.
+Each rule is recorded as **decision / reason**.
 
-### 회원
-- 이메일은 중복 불가.
-  - 이유: 로그인 아이디로 쓰기 때문.
-- 비밀번호는 암호화해서 저장. 원문 저장 금지.
-- 닉네임(username)도 중복 불가 → 프로필 주소 `/@username`에 사용.
+### Users
+- Email must be unique.
+  - Reason: used as the login ID.
+- Passwords are stored hashed. Never store plain text.
+- Username must be unique → used for the profile URL `/@username`.
 
-### 글
-- 수정은 **작성자만**, 삭제는 **작성자 + ADMIN**.
-- 새 글은 기본 **draft** 상태. 발행 버튼을 눌러야 published.
-- draft 글은 **작성자 본인만** 볼 수 있다.
-- 발행한 글을 다시 draft로 되돌릴 수 있다.
-- 삭제는 실제로 지우지 않고 "삭제됨" 표시만 한다 (soft delete).
-  - 이유: 신고 처리 기록을 남기기 위해.
+### Posts
+- Only the **author** can edit. The **author or an ADMIN** can delete.
+- New posts start as **draft**. They become published only when the author publishes them.
+- Draft posts are visible **only to the author**.
+- A published post can be reverted to draft.
+- Deleting does not remove the row; it is only marked as deleted (soft delete).
+  - Reason: keep a record for handling reports.
 
-### 목록
-- 발행된 글만, 최신순으로 보여준다.
-- 한 번에 10개씩.
+### Post list
+- Show only published posts, newest first.
+- 10 posts per page.
 
-### 댓글
-- 로그인한 유저만 작성 가능.
-- 대댓글은 **1단계까지만** (댓글에 답글 O, 답글에 답글 X).
-- 삭제된 댓글은 "삭제된 댓글입니다"로 표시 (답글이 달려 있을 수 있어서).
+### Comments
+- Only logged-in users can comment.
+- Replies go **one level deep only** (reply to a comment: yes, reply to a reply: no).
+- A deleted comment is shown as "This comment has been deleted" (it may have replies).
 
-### 태그
-- 글 하나에 최대 5개.
-- 영문은 소문자로 저장 (`Spring` = `spring`).
+### Tags
+- Up to 5 tags per post.
+- Stored in lowercase (`Spring` = `spring`).
 
-### 좋아요 / 북마크
-- 한 유저는 한 글에 좋아요 1번. 다시 누르면 취소.
-- 북마크도 같은 방식.
+### Likes / Bookmarks
+- A user can like a post once. Clicking again cancels it.
+- Bookmarks work the same way.
 
-### 조회수
-- 글 상세를 열 때마다 +1 (중복 방지는 나중에).
+### View count
+- +1 every time the post detail is opened (deduplication later).
 
-### 관리자
-- 신고가 들어오면 ADMIN이 **숨김 / 삭제 / 기각** 중 하나로 처리.
-- 정지된 유저는 로그인은 되지만 글·댓글 작성 불가.
+### Admin
+- When a report comes in, an ADMIN resolves it as **hide / delete / dismiss**.
+- Suspended users can log in but cannot write posts or comments.
 
-## 5. 이번 범위에서 하지 않는 것
-- 소셜 로그인 (Google, GitHub 등)
-- 유료 구독 / 결제
-- 실시간 알림 (처음엔 새로고침하면 보이는 방식)
-- 다국어
+## 5. Out of Scope
+- Social login (Google, GitHub, etc.)
+- Paid subscriptions / payments
+- Real-time notifications (initially visible on refresh)
+- Multi-language support
 
-## 6. 미결정 사항 (TODO)
-- [ ] 기술 스택 (백엔드 / DB / 프론트)
-- [ ] 로그인 유지 방식 (세션 vs 토큰)
-- [ ] 이미지 저장 위치 (서버 폴더 vs 클라우드)
-- [ ] 미리보기 링크를 몇 번 마일스톤에 넣을지
-- [ ] 검색 방식 (단순 포함 검색 vs 전문 검색)
+## 6. Open Questions (TODO)
+- [ ] Tech stack (backend / DB / frontend)
+- [ ] Session vs token for keeping users logged in
+- [ ] Where to store images (server folder vs cloud storage)
+- [ ] Which milestone the preview link belongs to
+- [ ] Search approach (simple contains search vs full-text search)
