@@ -27,6 +27,17 @@ Anyone can sign up, write posts, and read others' posts.
 | 4 | Post detail | Title, body, author, date | 3 |
 | 5 | Draft / Publish | Separate draft and published states | 6 |
 
+**Milestone** = the [GitHub milestone](https://github.com/yhan0704/blogBackend/milestones) where the feature is built.
+
+| # | Milestone | What gets built |
+|---|---|---|
+| 1 | Design | Requirements, sequence diagrams, ERD, API spec |
+| 2 | Sign up / Log in | Sign up, log in, keep users logged in |
+| 3 | Post CRUD | Create, read (detail), update, delete posts |
+| 4 | Post ↔ Author | Link posts to their author, author-only edit/delete |
+| 5 | Post list | List of posts with pagination |
+| 6 | Draft / Publish | Draft state, publish, drafts visible only to the author |
+
 ## 4. Business Rules
 
 Each rule is recorded as **decision / reason**.
