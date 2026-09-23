@@ -31,7 +31,7 @@ Anyone can sign up, write posts, and read others' posts.
 
 | # | Milestone | What gets built |
 |---|---|---|
-| 1 | Design | Requirements, sequence diagrams, ERD, API spec |
+| 1 | P0 Design | Requirements, sequence diagrams, ERD, API spec for P0 features |
 | 2 | Sign up / Log in | Sign up, log in, keep users logged in |
 | 3 | Post CRUD | Create, read (detail), update, delete posts |
 | 4 | Post ↔ Author | Link posts to their author, author-only edit/delete |
