@@ -68,7 +68,7 @@ Each rule is recorded as **decision / reason**.
 Only names are listed here so nothing is forgotten. Details will be decided when we get there.
 
 - **P1:** Tags, Comments, Likes, Profile, Image upload
-- **P2:** Follow, Bookmarks, Search, View count, Slug URL, Preview link, Notifications, Reports / Moderation, User suspension, Admin role
+- **P2:** Follow, Bookmarks, Search, View count, Slug URL, Preview link, Notifications, Reports / Moderation, User suspension, Admin role, Email verification, Forgot password
 
 ## 6. Open Questions (TODO)
 - [ ] Tech stack (backend / DB)
