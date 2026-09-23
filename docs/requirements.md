@@ -44,6 +44,8 @@ Each rule is recorded as **decision / reason**.
 
 ### Users
 - Log in with **email + password**.
+- A successful login returns a **JWT**. The frontend sends it with every request that needs a logged-in user.
+  - Reason: already used in a previous project (todoFullstack), so it's familiar.
 - Email must be unique.
   - Reason: used as the login ID.
 - Passwords are stored hashed. Never store plain text.
@@ -72,5 +74,4 @@ Only names are listed here so nothing is forgotten. Details will be decided when
 
 ## 6. Open Questions (TODO)
 - [ ] Tech stack (backend / DB)
-- [ ] Session vs token for keeping users logged in
 - [ ] Hard delete vs soft delete for posts

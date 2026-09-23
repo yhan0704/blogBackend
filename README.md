@@ -6,6 +6,6 @@ Backend for a Medium-style blog platform.
 
 1. [Requirements](docs/requirements.md)
 2. [Milestones](https://github.com/yhan0704/blogBackend/milestones)
-3. Sequence Diagrams (TBD)
+3. [Sequence Diagrams](docs/sequence-diagrams.md) (in progress)
 4. ERD (TBD)
 5. API Specification (TBD)
