@@ -11,7 +11,16 @@ Always follow these steps before running `git push`.
    - Filename: `NN-short-kebab-case-description.md` (NN is the next sequence number within that date folder, 2-digit zero-padded, and must match the commit order).
    - At the top of the file, write the title `# Commit <hash or "pending"> — <commit message summary>`.
    - Summarize what was changed and why in short bullet points. Even if the background explanation gets long, write it all in this file (don't scatter it elsewhere).
-3. Then create the commit and push.
+3. Run a review before pushing: spawn a separate reviewer agent that has no access to this conversation and only reads the repo files and the pending changes.
+   - Check that rules don't contradict each other (e.g. detail returns 404 but edit returns 403 for the same case).
+   - Check that documents agree with each other (`docs/requirements.md` ↔ `docs/sequence-diagrams/`, later the ERD and API spec).
+   - Check for missing cases: authentication, authorization, input validation, existence, duplicates/state.
+   - Check that features actually work end to end (e.g. a saved draft can be found again).
+   - Once code exists, also review the code for bugs, security issues, and missing tests.
+   - Tiny changes (typos, links only) may skip the review.
+4. If the reviewer finds problems, report them to the user in Korean and decide together. Do not fix them on your own.
+   - Add one line to the summary file: `Review: passed`, `Review: fixed <what>`, or `Review: skipped (<reason>)`.
+5. Then create the commit and push.
 
 This procedure is performed automatically every time you push, without the user needing to request it each time.
 
