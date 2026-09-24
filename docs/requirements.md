@@ -60,10 +60,18 @@ Each rule is recorded as **decision / reason**.
 - New posts start as **draft**. They become published only when the author publishes them.
 - Draft posts are visible **only to the author**.
 - A published post can be reverted to draft.
+- Post IDs are plain numbers (1, 2, 3...).
+  - Reason: simplest. Readable URLs come later with slug URLs (P2).
+- Opening someone else's draft returns **404 "Post not found"**.
+  - Reason: don't reveal that the post exists. The server always checks this; hiding it from the list is not enough.
 
 ### Post list
 - Show only published posts, newest first.
-- 10 posts per page.
+- Page-number pagination: `page` (1, 2, 3...).
+  - Reason: simplest, and the frontend can build either page buttons or infinite scroll on top of it.
+- Posts per page: `size` = **10, 30, or 50**. Default **10**. Any other value is rejected.
+  - Reason: prevent huge requests (e.g. `size=1000000`) that could overload the server.
+- The response includes the total number of pages.
 
 ## 5. Later (not in this round)
 
