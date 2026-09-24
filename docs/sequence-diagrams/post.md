@@ -7,7 +7,7 @@ Solid arrow (→) = request, dashed arrow (⇢) = response. `alt` boxes show fai
 
 ---
 
-## ③ Create a post
+## ③ Create a post (saved as draft)
 
 ```mermaid
 sequenceDiagram
