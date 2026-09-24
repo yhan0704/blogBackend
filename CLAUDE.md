@@ -12,6 +12,9 @@ Always follow these steps before running `git push`.
    - At the top of the file, write the title `# Commit <hash or "pending"> — <commit message summary>`.
    - Summarize what was changed and why in short bullet points. Even if the background explanation gets long, write it all in this file (don't scatter it elsewhere).
 3. Run a review before pushing: spawn a separate reviewer agent that has no access to this conversation and only reads the repo files and the pending changes.
+   - The reviewer acts as a **senior backend engineer reviewing a junior's design/code**.
+   - For each issue, explain **why it is a problem** in a way a junior can understand.
+   - Prioritize problems that actually break in real services: concurrent requests, data consistency, security, and operations.
    - Check that rules don't contradict each other (e.g. detail returns 404 but edit returns 403 for the same case).
    - Check that documents agree with each other (`docs/requirements.md` ↔ `docs/sequence-diagrams/`, later the ERD and API spec).
    - Check for missing cases: authentication, authorization, input validation, existence, duplicates/state.
