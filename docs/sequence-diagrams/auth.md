@@ -3,7 +3,7 @@
 > 🚧 **Draft** — P0 only.
 > Related issue: 3. Sequence diagrams
 
-Solid arrow (→) = request, dashed arrow (⇢) = response. `alt` boxes show failure cases.
+Solid arrow (→) = request, dashed arrow (⇢) = response. `alt` boxes show branches. A response to the Frontend (⇢) ends the request.
 
 ---
 

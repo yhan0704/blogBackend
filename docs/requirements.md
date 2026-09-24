@@ -15,7 +15,7 @@ Anyone can sign up, write posts, and read others' posts.
 | Role | Description | Permissions |
 |---|---|---|
 | Guest | Visitor who is not logged in | Read published posts (list, detail) |
-| USER | Registered user | Guest permissions + write, edit, delete, and publish their own posts |
+| USER | Registered user | Guest permissions + write, edit, delete, publish, and unpublish their own posts; see their own posts list (including drafts) |
 
 ## 3. Features (P0)
 
@@ -56,19 +56,21 @@ Each rule is recorded as **decision / reason**.
 
 ### Posts
 - Only logged-in users can write posts.
-- Only the **author** can edit or delete their post.
+- Only the **author** can edit, delete, publish, or unpublish their post.
 - Post body is stored as **Markdown text**.
 - New posts start as **draft**. They become published only when the author publishes them.
 - Draft posts are visible **only to the author**.
 - A published post can be reverted to draft.
 - Post IDs are plain numbers (1, 2, 3...).
   - Reason: simplest. Readable URLs come later with slug URLs (P2).
-- Someone else's **draft** always returns **404 "Post not found"** — for viewing, editing, deleting, and publishing.
+- Someone else's **draft** always returns **404 "Post not found"** — for viewing, editing, deleting, publishing, and unpublishing.
   - Reason: don't reveal that the post exists. The server always checks this; hiding it from the list is not enough.
-- Editing, deleting, or publishing someone else's **published** post returns **403 "Only the author can ..."**.
+- Editing, deleting, publishing, or unpublishing someone else's **published** post returns **403 "Only the author can ..."**.
   - Reason: published posts are public anyway, so 403 reveals nothing new.
 - The first time a post is published, `published_at` is recorded. Unpublishing and publishing again **keeps the original date**.
   - Reason: prevents bumping an old post to the top of the list by unpublishing and republishing. Medium works the same way.
+- Publishing an already-published post, or unpublishing a draft, **succeeds without changing anything** (idempotent).
+  - Reason: a double click or two open tabs shouldn't produce an error. The end state is the same either way.
 
 ### Post list
 - Show only published posts, newest `published_at` first.

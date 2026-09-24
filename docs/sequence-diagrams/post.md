@@ -3,7 +3,7 @@
 > 🚧 **Draft** — P0 only.
 > Related issue: 3. Sequence diagrams
 
-Solid arrow (→) = request, dashed arrow (⇢) = response. `alt` boxes show failure cases.
+Solid arrow (→) = request, dashed arrow (⇢) = response. `alt` boxes show branches. A response to the Frontend (⇢) ends the request; `✅ Continue` means the flow keeps going.
 
 ---
 
@@ -59,6 +59,8 @@ sequenceDiagram
         Server-->>Frontend: ❌ "Post not found" (don't reveal it exists)
     else Not the author, post is published
         Server-->>Frontend: ❌ "Only the author can edit this post"
+    else I am the author
+        Server->>Server: ✅ Continue
     end
     Server->>Server: Are title and body empty?
     alt Title or body is empty
@@ -95,6 +97,8 @@ sequenceDiagram
         Server-->>Frontend: ❌ "Post not found" (don't reveal it exists)
     else Not the author, post is published
         Server-->>Frontend: ❌ "Only the author can delete this post"
+    else I am the author
+        Server->>Server: ✅ Continue
     end
     Server->>DB: Delete post
     DB-->>Server: Deleted
@@ -152,7 +156,7 @@ sequenceDiagram
 
 ## ⑦ Publish / unpublish
 
-Unpublish (published → draft) follows the same flow with the opposite status. `published_at` is **not** cleared, so publishing again keeps the original date.
+### Publish
 
 ```mermaid
 sequenceDiagram
@@ -177,6 +181,11 @@ sequenceDiagram
         Server-->>Frontend: ❌ "Post not found" (don't reveal it exists)
     else Not the author, post is published
         Server-->>Frontend: ❌ "Only the author can publish this post"
+    else I am the author
+        Server->>Server: ✅ Continue
+    end
+    alt Already published
+        Server-->>Frontend: ✅ Publish success (nothing changed, stop)
     end
     opt First time being published (published_at is empty)
         Server->>Server: Set published_at = now
@@ -185,6 +194,45 @@ sequenceDiagram
     DB-->>Server: Updated
     Server-->>Frontend: Publish success
     Frontend-->>User: Post published
+```
+
+### Unpublish
+
+`published_at` is **not** cleared, so publishing again keeps the original date.
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Frontend
+    participant Server
+    participant DB
+
+    User->>Frontend: Click "Unpublish"
+    Frontend->>Server: Post id + JWT
+    Server->>Server: Verify JWT
+    alt JWT missing or expired
+        Server-->>Frontend: ❌ "Login required"
+    end
+    Server->>DB: Find the post with this id
+    DB-->>Server: Post
+    alt Post not found
+        Server-->>Frontend: ❌ "Post not found"
+    end
+    Server->>Server: Is the author me?
+    alt Not the author, post is a draft
+        Server-->>Frontend: ❌ "Post not found" (don't reveal it exists)
+    else Not the author, post is published
+        Server-->>Frontend: ❌ "Only the author can unpublish this post"
+    else I am the author
+        Server->>Server: ✅ Continue
+    end
+    alt Already a draft
+        Server-->>Frontend: ✅ Unpublish success (nothing changed, stop)
+    end
+    Server->>DB: Set status = draft (keep published_at)
+    DB-->>Server: Updated
+    Server-->>Frontend: Unpublish success
+    Frontend-->>User: Post is a draft again
 ```
 
 ## ⑧ My posts
