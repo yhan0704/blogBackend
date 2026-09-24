@@ -26,6 +26,7 @@ Anyone can sign up, write posts, and read others' posts.
 | 3 | Post list | Newest first, pagination | 5 |
 | 4 | Post detail | Title, body, author, date | 3 |
 | 5 | Draft / Publish | Separate draft and published states | 6 |
+| 6 | My posts | List of my own posts, including drafts (login required) | 6 |
 
 **Milestone** = the [GitHub milestone](https://github.com/yhan0704/blogBackend/milestones) where the feature is built.
 
@@ -36,7 +37,7 @@ Anyone can sign up, write posts, and read others' posts.
 | 3 | Post CRUD | Create, read (detail), update, delete posts |
 | 4 | Post ↔ Author | Link posts to their author, author-only edit/delete |
 | 5 | Post list | List of posts with pagination |
-| 6 | Draft / Publish | Draft state, publish, drafts visible only to the author |
+| 6 | Draft / Publish | Draft state, publish, drafts visible only to the author, my posts list |
 
 ## 4. Business Rules
 
@@ -62,16 +63,26 @@ Each rule is recorded as **decision / reason**.
 - A published post can be reverted to draft.
 - Post IDs are plain numbers (1, 2, 3...).
   - Reason: simplest. Readable URLs come later with slug URLs (P2).
-- Opening someone else's draft returns **404 "Post not found"**.
+- Someone else's **draft** always returns **404 "Post not found"** — for viewing, editing, deleting, and publishing.
   - Reason: don't reveal that the post exists. The server always checks this; hiding it from the list is not enough.
+- Editing, deleting, or publishing someone else's **published** post returns **403 "Only the author can ..."**.
+  - Reason: published posts are public anyway, so 403 reveals nothing new.
+- The first time a post is published, `published_at` is recorded. Unpublishing and publishing again **keeps the original date**.
+  - Reason: prevents bumping an old post to the top of the list by unpublishing and republishing. Medium works the same way.
 
 ### Post list
-- Show only published posts, newest first.
+- Show only published posts, newest `published_at` first.
+  - Reason: a draft written a month ago and published today should appear at the top, not be buried by its creation date.
 - Page-number pagination: `page` (1, 2, 3...).
   - Reason: simplest, and the frontend can build either page buttons or infinite scroll on top of it.
 - Posts per page: `size` = **10, 30, or 50**. Default **10**. Any other value is rejected.
   - Reason: prevent huge requests (e.g. `size=1000000`) that could overload the server.
 - The response includes the total number of pages.
+
+### My posts
+- Login required. Shows only my own posts, both **draft and published**, each with its status.
+  - Reason: without this, a saved draft can't be found again after leaving the page.
+- Newest first by last update. Same `page` / `size` rules as the post list.
 
 ## 5. Later (not in this round)
 

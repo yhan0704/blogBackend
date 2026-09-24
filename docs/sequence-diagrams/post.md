@@ -55,7 +55,9 @@ sequenceDiagram
         Server-->>Frontend: ❌ "Post not found"
     end
     Server->>Server: Is the author me?
-    alt Not the author
+    alt Not the author, post is a draft
+        Server-->>Frontend: ❌ "Post not found" (don't reveal it exists)
+    else Not the author, post is published
         Server-->>Frontend: ❌ "Only the author can edit this post"
     end
     Server->>Server: Are title and body empty?
@@ -89,7 +91,9 @@ sequenceDiagram
         Server-->>Frontend: ❌ "Post not found"
     end
     Server->>Server: Is the author me?
-    alt Not the author
+    alt Not the author, post is a draft
+        Server-->>Frontend: ❌ "Post not found" (don't reveal it exists)
+    else Not the author, post is published
         Server-->>Frontend: ❌ "Only the author can delete this post"
     end
     Server->>DB: Delete post
@@ -115,7 +119,7 @@ sequenceDiagram
     alt Invalid size
         Server-->>Frontend: ❌ "size must be 10, 30, or 50"
     end
-    Server->>DB: Published posts only, newest first, this page
+    Server->>DB: Published posts only, newest published_at first, this page
     DB-->>Server: Posts + total count
     Server-->>Frontend: Posts, total pages
     Frontend-->>User: Show post list
@@ -142,13 +146,13 @@ sequenceDiagram
     alt Draft and requester is not the author
         Server-->>Frontend: ❌ "Post not found" (don't reveal it exists)
     end
-    Server-->>Frontend: Title, body, author, date
+    Server-->>Frontend: Title, body, author, published date
     Frontend-->>User: Show post
 ```
 
 ## ⑦ Publish / unpublish
 
-Unpublish (published → draft) follows the same flow with the opposite status.
+Unpublish (published → draft) follows the same flow with the opposite status. `published_at` is **not** cleared, so publishing again keeps the original date.
 
 ```mermaid
 sequenceDiagram
@@ -169,11 +173,43 @@ sequenceDiagram
         Server-->>Frontend: ❌ "Post not found"
     end
     Server->>Server: Is the author me?
-    alt Not the author
+    alt Not the author, post is a draft
+        Server-->>Frontend: ❌ "Post not found" (don't reveal it exists)
+    else Not the author, post is published
         Server-->>Frontend: ❌ "Only the author can publish this post"
+    end
+    opt First time being published (published_at is empty)
+        Server->>Server: Set published_at = now
     end
     Server->>DB: Set status = published
     DB-->>Server: Updated
     Server-->>Frontend: Publish success
     Frontend-->>User: Post published
+```
+
+## ⑧ My posts
+
+Login required. Shows my own posts, both draft and published.
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Frontend
+    participant Server
+    participant DB
+
+    User->>Frontend: Open "My posts"
+    Frontend->>Server: page, size + JWT
+    Server->>Server: Verify JWT
+    alt JWT missing or expired
+        Server-->>Frontend: ❌ "Login required"
+    end
+    Server->>Server: Is size 10, 30, or 50? (default 10)
+    alt Invalid size
+        Server-->>Frontend: ❌ "size must be 10, 30, or 50"
+    end
+    Server->>DB: My posts (draft + published), newest update first, this page
+    DB-->>Server: Posts + total count
+    Server-->>Frontend: Posts (with status), total pages
+    Frontend-->>User: Show my posts
 ```
