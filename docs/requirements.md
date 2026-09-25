@@ -93,6 +93,8 @@ Only names are listed here so nothing is forgotten. Details will be decided when
 - **P1:** Tags, Comments, Likes, Profile, Image upload, Autosave (server)
   - Autosave note: when added, change the rule to "drafts may be empty; title and body are required only when publishing".
 - **P2:** Follow, Bookmarks, Search, View count, Slug URL, Preview link, Notifications, Reports / Moderation, User suspension, Admin role, Email verification, Forgot password
+  - Admin role note: admins can delete any post. This is an exception to "only the author" and to "someone else's draft → 404".
+  - Slug URL note: creating a post with a slug that is already taken must not reveal that someone else's draft uses it.
 
 ## 6. Open Questions (TODO)
 - [ ] Tech stack (backend / DB)
